@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Compile Include="..\MultiPlayerAR.Unity\Assets\Scripts\ServerShared\**\*.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="MagicOnion.Hosting" Version="3.0.13" />
+        <PackageReference Include="MessagePack.UnityShims" Version="2.1.152" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="MagicOnion.MSBuild.Tasks" Version="*" PrivateAssets="All" />
+        <PackageReference Include="MessagePack.MSBuild.Tasks" Version="*" PrivateAssets="All" />
+    </ItemGroup>
+
+    <Target Name="GenerateMessagePack" AfterTargets="Compile">
+        <MessagePackGenerator Input=".\MultiPlayerAR.Shared.csproj" Output="..\MultiPlayerAR.Unity\Assets\Scripts\Generated\MessagePack.Generated.cs" />
+    </Target>
+
+    <Target Name="GenerateMagicOnion" AfterTargets="Compile">
+        <MagicOnionGenerator Input=".\MultiPlayerAR.Shared.csproj" Output="..\MultiPlayerAR.Unity\Assets\Scripts\Generated\MagicOnion.Generated.cs" />
+    </Target>
+
+</Project>
