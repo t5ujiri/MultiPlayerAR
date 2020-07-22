@@ -1,0 +1,8 @@
+.git/
+**/bin/
+**/obj/
+MultiPlayerAR.Unity/Library/
+MultiPlayerAR.Unity/Temp/
+MultiPlayerAR.Unity/*.csproj
+MultiPlayerAR.Unity/*.sln
+**/.idea
