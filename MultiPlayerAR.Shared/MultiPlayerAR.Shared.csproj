@@ -11,6 +11,9 @@
     <ItemGroup>
         <PackageReference Include="MagicOnion.Hosting" Version="3.0.13" />
         <PackageReference Include="MessagePack.UnityShims" Version="2.1.152" />
+        <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+        <PackageReference Include="System.Dynamic.Runtime" Version="4.3.0" />
+        <PackageReference Include="UniRx" Version="5.4.1" />
     </ItemGroup>
 
     <ItemGroup>

@@ -3,6 +3,7 @@
   <component name="ContentModelUserStore">
     <attachedFolders />
     <explicitIncludes>
+      <Path>Library/PackageCache/com.cysharp.unitask@2.0.26</Path>
       <Path>Library/PackageCache/com.svermeulen.extenject@9.1.0</Path>
       <Path>Library/PackageCache/com.unity.collab-proxy@1.2.16</Path>
       <Path>Library/PackageCache/com.unity.ext.nunit@1.0.0</Path>
@@ -25,6 +26,7 @@
     </explicitIncludes>
     <explicitExcludes>
       <Path>.idea</Path>
+      <Path>Build</Path>
       <Path>Library</Path>
       <Path>Temp</Path>
       <Path>obj</Path>

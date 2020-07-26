@@ -23,9 +23,8 @@ namespace MagicOnion
             if(isRegistered) return;
             isRegistered = true;
 
-            MagicOnionClientRegistry<net.caffeineinject.multiplayerar.servershared.services.ISampleService>.Register((x, y, z) => new net.caffeineinject.multiplayerar.servershared.services.SampleServiceClient(x, y, z));
 
-            StreamingHubClientRegistry<net.caffeineinject.multiplayerar.servershared.hubs.ISampleHub, net.caffeineinject.multiplayerar.servershared.hubs.ISampleHubReceiver>.Register((a, _, b, c, d, e) => new net.caffeineinject.multiplayerar.servershared.hubs.SampleHubClient(a, b, c, d, e));
+            StreamingHubClientRegistry<net.caffeineinject.multiplayerar.application.IARWorldHub, net.caffeineinject.multiplayerar.application.IARWorldHubReceiver>.Register((a, _, b, c, d, e) => new net.caffeineinject.multiplayerar.application.ARWorldHubClient(a, b, c, d, e));
         }
     }
 }
@@ -81,10 +80,8 @@ namespace MagicOnion.Resolvers
 
         static MagicOnionResolverGetFormatterHelper()
         {
-            lookup = new global::System.Collections.Generic.Dictionary<Type, int>(2)
+            lookup = new global::System.Collections.Generic.Dictionary<Type, int>(0)
             {
-                {typeof(global::MagicOnion.DynamicArgumentTuple<int, int>), 0 },
-                {typeof(global::MagicOnion.DynamicArgumentTuple<string, string>), 1 },
             };
         }
 
@@ -98,8 +95,6 @@ namespace MagicOnion.Resolvers
 
             switch (key)
             {
-                case 0: return new global::MagicOnion.DynamicArgumentTupleFormatter<int, int>(default(int), default(int));
-                case 1: return new global::MagicOnion.DynamicArgumentTupleFormatter<string, string>(default(string), default(string));
                 default: return null;
             }
         }
@@ -117,107 +112,7 @@ namespace MagicOnion.Resolvers
 #pragma warning disable 219
 #pragma warning disable 168
 
-namespace net.caffeineinject.multiplayerar.servershared.services {
-    using System;
-    using MagicOnion;
-    using MagicOnion.Client;
-    using Grpc.Core;
-    using MessagePack;
-
-    [Ignore]
-    public class SampleServiceClient : MagicOnionClientBase<global::net.caffeineinject.multiplayerar.servershared.services.ISampleService>, global::net.caffeineinject.multiplayerar.servershared.services.ISampleService
-    {
-        static readonly Method<byte[], byte[]> SumAsyncMethod;
-        static readonly Func<RequestContext, ResponseContext> SumAsyncDelegate;
-        static readonly Method<byte[], byte[]> ProductAsyncMethod;
-        static readonly Func<RequestContext, ResponseContext> ProductAsyncDelegate;
-
-        static SampleServiceClient()
-        {
-            SumAsyncMethod = new Method<byte[], byte[]>(MethodType.Unary, "ISampleService", "SumAsync", MagicOnionMarshallers.ThroughMarshaller, MagicOnionMarshallers.ThroughMarshaller);
-            SumAsyncDelegate = _SumAsync;
-            ProductAsyncMethod = new Method<byte[], byte[]>(MethodType.Unary, "ISampleService", "ProductAsync", MagicOnionMarshallers.ThroughMarshaller, MagicOnionMarshallers.ThroughMarshaller);
-            ProductAsyncDelegate = _ProductAsync;
-        }
-
-        SampleServiceClient()
-        {
-        }
-
-        public SampleServiceClient(CallInvoker callInvoker, MessagePackSerializerOptions serializerOptions, IClientFilter[] filters)
-            : base(callInvoker, serializerOptions, filters)
-        {
-        }
-
-        protected override MagicOnionClientBase<ISampleService> Clone()
-        {
-            var clone = new SampleServiceClient();
-            clone.host = this.host;
-            clone.option = this.option;
-            clone.callInvoker = this.callInvoker;
-            clone.serializerOptions = this.serializerOptions;
-            clone.filters = filters;
-            return clone;
-        }
-
-        public new ISampleService WithHeaders(Metadata headers)
-        {
-            return base.WithHeaders(headers);
-        }
-
-        public new ISampleService WithCancellationToken(System.Threading.CancellationToken cancellationToken)
-        {
-            return base.WithCancellationToken(cancellationToken);
-        }
-
-        public new ISampleService WithDeadline(System.DateTime deadline)
-        {
-            return base.WithDeadline(deadline);
-        }
-
-        public new ISampleService WithHost(string host)
-        {
-            return base.WithHost(host);
-        }
-
-        public new ISampleService WithOptions(CallOptions option)
-        {
-            return base.WithOptions(option);
-        }
-   
-        static ResponseContext _SumAsync(RequestContext __context)
-        {
-            return CreateResponseContext<DynamicArgumentTuple<int, int>, int>(__context, SumAsyncMethod);
-        }
-
-        public global::MagicOnion.UnaryResult<int> SumAsync(int x, int y)
-        {
-            return InvokeAsync<DynamicArgumentTuple<int, int>, int>("ISampleService/SumAsync", new DynamicArgumentTuple<int, int>(x, y), SumAsyncDelegate);
-        }
-        static ResponseContext _ProductAsync(RequestContext __context)
-        {
-            return CreateResponseContext<DynamicArgumentTuple<int, int>, int>(__context, ProductAsyncMethod);
-        }
-
-        public global::MagicOnion.UnaryResult<int> ProductAsync(int x, int y)
-        {
-            return InvokeAsync<DynamicArgumentTuple<int, int>, int>("ISampleService/ProductAsync", new DynamicArgumentTuple<int, int>(x, y), ProductAsyncDelegate);
-        }
-    }
-}
-
-#pragma warning restore 168
-#pragma warning restore 219
-#pragma warning restore 414
-#pragma warning restore 612
-#pragma warning restore 618
-#pragma warning disable 618
-#pragma warning disable 612
-#pragma warning disable 414
-#pragma warning disable 219
-#pragma warning disable 168
-
-namespace net.caffeineinject.multiplayerar.servershared.hubs {
+namespace net.caffeineinject.multiplayerar.application {
     using Grpc.Core;
     using Grpc.Core.Logging;
     using MagicOnion;
@@ -227,21 +122,21 @@ namespace net.caffeineinject.multiplayerar.servershared.hubs {
     using System.Threading.Tasks;
 
     [Ignore]
-    public class SampleHubClient : StreamingHubClientBase<global::net.caffeineinject.multiplayerar.servershared.hubs.ISampleHub, global::net.caffeineinject.multiplayerar.servershared.hubs.ISampleHubReceiver>, global::net.caffeineinject.multiplayerar.servershared.hubs.ISampleHub
+    public class ARWorldHubClient : StreamingHubClientBase<global::net.caffeineinject.multiplayerar.application.IARWorldHub, global::net.caffeineinject.multiplayerar.application.IARWorldHubReceiver>, global::net.caffeineinject.multiplayerar.application.IARWorldHub
     {
-        static readonly Method<byte[], byte[]> method = new Method<byte[], byte[]>(MethodType.DuplexStreaming, "ISampleHub", "Connect", MagicOnionMarshallers.ThroughMarshaller, MagicOnionMarshallers.ThroughMarshaller);
+        static readonly Method<byte[], byte[]> method = new Method<byte[], byte[]>(MethodType.DuplexStreaming, "IARWorldHub", "Connect", MagicOnionMarshallers.ThroughMarshaller, MagicOnionMarshallers.ThroughMarshaller);
 
         protected override Method<byte[], byte[]> DuplexStreamingAsyncMethod { get { return method; } }
 
-        readonly global::net.caffeineinject.multiplayerar.servershared.hubs.ISampleHub __fireAndForgetClient;
+        readonly global::net.caffeineinject.multiplayerar.application.IARWorldHub __fireAndForgetClient;
 
-        public SampleHubClient(CallInvoker callInvoker, string host, CallOptions option, MessagePackSerializerOptions serializerOptions, ILogger logger)
+        public ARWorldHubClient(CallInvoker callInvoker, string host, CallOptions option, MessagePackSerializerOptions serializerOptions, ILogger logger)
             : base(callInvoker, host, option, serializerOptions, logger)
         {
             this.__fireAndForgetClient = new FireAndForgetClient(this);
         }
         
-        public global::net.caffeineinject.multiplayerar.servershared.hubs.ISampleHub FireAndForget()
+        public global::net.caffeineinject.multiplayerar.application.IARWorldHub FireAndForget()
         {
             return __fireAndForgetClient;
         }
@@ -250,25 +145,10 @@ namespace net.caffeineinject.multiplayerar.servershared.hubs {
         {
             switch (methodId)
             {
-                case -1297457280: // OnJoin
+                case 1172043064: // OnEvent
                 {
-                    var result = MessagePackSerializer.Deserialize<string>(data, serializerOptions);
-                    receiver.OnJoin(result); break;
-                }
-                case 532410095: // OnLeave
-                {
-                    var result = MessagePackSerializer.Deserialize<string>(data, serializerOptions);
-                    receiver.OnLeave(result); break;
-                }
-                case -552695459: // OnSendMessage
-                {
-                    var result = MessagePackSerializer.Deserialize<DynamicArgumentTuple<string, string>>(data, serializerOptions);
-                    receiver.OnSendMessage(result.Item1, result.Item2); break;
-                }
-                case -114453294: // OnMovePosition
-                {
-                    var result = MessagePackSerializer.Deserialize<global::net.caffeineinject.multiplayerar.servershared.messagepackobjects.Player>(data, serializerOptions);
-                    receiver.OnMovePosition(result); break;
+                    var result = MessagePackSerializer.Deserialize<global::net.caffeineinject.multiplayerar.servershared.messagepackobjects.IEvent>(data, serializerOptions);
+                    receiver.OnEvent(result); break;
                 }
                 default:
                     break;
@@ -279,25 +159,7 @@ namespace net.caffeineinject.multiplayerar.servershared.hubs {
         {
             switch (methodId)
             {
-                case -733403293: // JoinAsync
-                {
-                    var result = MessagePackSerializer.Deserialize<Nil>(data, serializerOptions);
-                    ((TaskCompletionSource<Nil>)taskCompletionSource).TrySetResult(result);
-                    break;
-                }
-                case 1368362116: // LeaveAsync
-                {
-                    var result = MessagePackSerializer.Deserialize<Nil>(data, serializerOptions);
-                    ((TaskCompletionSource<Nil>)taskCompletionSource).TrySetResult(result);
-                    break;
-                }
-                case -601690414: // SendMessageAsync
-                {
-                    var result = MessagePackSerializer.Deserialize<Nil>(data, serializerOptions);
-                    ((TaskCompletionSource<Nil>)taskCompletionSource).TrySetResult(result);
-                    break;
-                }
-                case 1105294121: // MovePositionAsync
+                case -1075716276: // ExecuteAsync
                 {
                     var result = MessagePackSerializer.Deserialize<Nil>(data, serializerOptions);
                     ((TaskCompletionSource<Nil>)taskCompletionSource).TrySetResult(result);
@@ -308,37 +170,22 @@ namespace net.caffeineinject.multiplayerar.servershared.hubs {
             }
         }
    
-        public global::System.Threading.Tasks.Task JoinAsync(global::net.caffeineinject.multiplayerar.servershared.messagepackobjects.Player player)
+        public global::System.Threading.Tasks.Task ExecuteAsync(global::net.caffeineinject.multiplayerar.servershared.messagepackobjects.ICommand cmd)
         {
-            return WriteMessageWithResponseAsync<global::net.caffeineinject.multiplayerar.servershared.messagepackobjects.Player, Nil>(-733403293, player);
-        }
-
-        public global::System.Threading.Tasks.Task LeaveAsync()
-        {
-            return WriteMessageWithResponseAsync<Nil, Nil>(1368362116, Nil.Default);
-        }
-
-        public global::System.Threading.Tasks.Task SendMessageAsync(string message)
-        {
-            return WriteMessageWithResponseAsync<string, Nil>(-601690414, message);
-        }
-
-        public global::System.Threading.Tasks.Task MovePositionAsync(global::UnityEngine.Vector3 position)
-        {
-            return WriteMessageWithResponseAsync<global::UnityEngine.Vector3, Nil>(1105294121, position);
+            return WriteMessageWithResponseAsync<global::net.caffeineinject.multiplayerar.servershared.messagepackobjects.ICommand, Nil>(-1075716276, cmd);
         }
 
 
-        class FireAndForgetClient : global::net.caffeineinject.multiplayerar.servershared.hubs.ISampleHub
+        class FireAndForgetClient : global::net.caffeineinject.multiplayerar.application.IARWorldHub
         {
-            readonly SampleHubClient __parent;
+            readonly ARWorldHubClient __parent;
 
-            public FireAndForgetClient(SampleHubClient parentClient)
+            public FireAndForgetClient(ARWorldHubClient parentClient)
             {
                 this.__parent = parentClient;
             }
 
-            public global::net.caffeineinject.multiplayerar.servershared.hubs.ISampleHub FireAndForget()
+            public global::net.caffeineinject.multiplayerar.application.IARWorldHub FireAndForget()
             {
                 throw new NotSupportedException();
             }
@@ -353,24 +200,9 @@ namespace net.caffeineinject.multiplayerar.servershared.hubs {
                 throw new NotSupportedException();
             }
 
-            public global::System.Threading.Tasks.Task JoinAsync(global::net.caffeineinject.multiplayerar.servershared.messagepackobjects.Player player)
+            public global::System.Threading.Tasks.Task ExecuteAsync(global::net.caffeineinject.multiplayerar.servershared.messagepackobjects.ICommand cmd)
             {
-                return __parent.WriteMessageAsync<global::net.caffeineinject.multiplayerar.servershared.messagepackobjects.Player>(-733403293, player);
-            }
-
-            public global::System.Threading.Tasks.Task LeaveAsync()
-            {
-                return __parent.WriteMessageAsync<Nil>(1368362116, Nil.Default);
-            }
-
-            public global::System.Threading.Tasks.Task SendMessageAsync(string message)
-            {
-                return __parent.WriteMessageAsync<string>(-601690414, message);
-            }
-
-            public global::System.Threading.Tasks.Task MovePositionAsync(global::UnityEngine.Vector3 position)
-            {
-                return __parent.WriteMessageAsync<global::UnityEngine.Vector3>(1105294121, position);
+                return __parent.WriteMessageAsync<global::net.caffeineinject.multiplayerar.servershared.messagepackobjects.ICommand>(-1075716276, cmd);
             }
 
         }

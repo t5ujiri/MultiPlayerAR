@@ -1,6 +1,9 @@
 {
   "dependencies": {
+    "net.caffeineinject.tmp-genshingothic": "https://github.com/t5ujiri/TMP_GenShinGothic.git#v0.1.0-preview.1",
     "com.cysharp.slnmerge": "https://github.com/Cysharp/SlnMerge.git?path=src",
+    "com.cysharp.unitask": "2.0.26",
+    "com.neuecc.unirx": "https://github.com/neuecc/UniRx.git?path=Assets/Plugins/UniRx/Scripts",
     "com.svermeulen.extenject": "9.1.0",
     "com.unity.collab-proxy": "1.2.16",
     "com.unity.ide.rider": "1.1.4",
@@ -50,6 +53,7 @@
       "name": "package.openupm.com",
       "url": "https://package.openupm.com",
       "scopes": [
+        "com.cysharp.unitask",
         "com.openupm",
         "com.svermeulen.extenject"
       ]

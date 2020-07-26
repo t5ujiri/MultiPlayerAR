@@ -8,6 +8,7 @@
     <ItemGroup>
       <PackageReference Include="MagicOnion.Hosting" Version="3.0.13" />
       <PackageReference Include="MessagePack.UnityShims" Version="2.1.152" />
+      <PackageReference Include="UniRx" Version="5.4.1" />
     </ItemGroup>
 
     <ItemGroup>

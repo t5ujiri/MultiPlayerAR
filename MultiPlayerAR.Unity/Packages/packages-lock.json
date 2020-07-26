@@ -7,6 +7,20 @@
       "dependencies": {},
       "hash": "89918dfbb07b9b6c2dd9cfdf51369c48e7a0600a"
     },
+    "com.cysharp.unitask": {
+      "version": "2.0.26",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://package.openupm.com"
+    },
+    "com.neuecc.unirx": {
+      "version": "https://github.com/neuecc/UniRx.git?path=Assets/Plugins/UniRx/Scripts",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "284d5c50d3f1ddd9fa7df3d382ea904732a9c2ff"
+    },
     "com.svermeulen.extenject": {
       "version": "9.1.0",
       "depth": 0,
@@ -162,6 +176,13 @@
         "com.unity.subsystemregistration": "1.0.6"
       },
       "url": "https://packages.unity.com"
+    },
+    "net.caffeineinject.tmp-genshingothic": {
+      "version": "https://github.com/t5ujiri/TMP_GenShinGothic.git#v0.1.0-preview.1",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "51d4f4a6d3be361911332f4dcb17b317de373dd3"
     },
     "com.unity.modules.ai": {
       "version": "1.0.0",

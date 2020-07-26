@@ -1,0 +1,42 @@
+@startuml
+
+package Shared {
+    interface IGamingHub {
+
+    }
+
+    interface IEventStore {
+        IObservable OnEventReceived(IEvent)
+    }
+
+    interface IEvent
+    interface ICommand
+
+    class CommandImpl implements ICommand
+    class EventImpl implements IEvent
+
+    class Entity {
+        Mutate(IEvent)
+    }
+
+    Entity --> ICommand
+    Entity ---> IEvent
+}
+
+package Client {
+
+    class Client implements IEventStore
+
+    IEventStore --> IEvent
+    Client --> IEvent
+    Client --> ICommand
+}
+
+package Server {
+    class GamingHub implements StreamingHubBase,IGamingHub
+
+    StreamingHubBase -> IEventStore
+}
+
+
+@enduml
