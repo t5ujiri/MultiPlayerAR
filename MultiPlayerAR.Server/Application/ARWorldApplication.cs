@@ -17,13 +17,7 @@ namespace net.caffeineinject.multiplayerar.application
             _roomName = roomName;
             EventStore = eventStore;
             DomainEventPublisher = domainEventPublisher;
-            DomainEventPublisher.EventStream.OfType<IEvent, PlayerJoined>()
-                .Subscribe(e => { EventStore.AppendToStream(new IEvent[] {e}); })
-                .AddTo(_compositeDisposable);
-            DomainEventPublisher.EventStream.OfType<IEvent, PlayerSpoke>()
-                .Subscribe(e => { EventStore.AppendToStream(new IEvent[] {e}); })
-                .AddTo(_compositeDisposable);
-            DomainEventPublisher.EventStream.OfType<IEvent, PlayerLeft>()
+            DomainEventPublisher.EventStream
                 .Subscribe(e => { EventStore.AppendToStream(new IEvent[] {e}); })
                 .AddTo(_compositeDisposable);
         }
@@ -43,7 +37,15 @@ namespace net.caffeineinject.multiplayerar.application
                 case LeaveCommand leaveCommand:
                     When(leaveCommand);
                     break;
+                case PlayerMoveCommand moveCommand:
+                    When(moveCommand);
+                    break;
             }
+        }
+
+        private void When(PlayerMoveCommand playerMoveCommand)
+        {
+            Update(_roomName, world => world.MovePlayer(playerMoveCommand.PlayerId, playerMoveCommand.Position, playerMoveCommand.Rotation));
         }
 
         private void When(JoinCommand cmd)

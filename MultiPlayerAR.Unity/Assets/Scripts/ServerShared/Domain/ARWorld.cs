@@ -8,15 +8,16 @@ namespace net.caffeineinject.multiplayerar.domain
 {
     public class ARWorld
     {
-        private readonly string _roomName;
         public ConcurrentDictionary<string, Player> Players { get; } = new ConcurrentDictionary<string, Player>();
         public List<PlayerSpoke> Messages { get; set; } = new List<PlayerSpoke>();
+        public string RoomName { get; }
+
         private readonly DomainEventPublisher _domainEventPublisher;
 
         public ARWorld(string roomName, EventStream eventStream, DomainEventPublisher domainEventPublisher)
         {
             _domainEventPublisher = domainEventPublisher;
-            _roomName = roomName;
+            RoomName = roomName;
             foreach (var @event in eventStream.Events)
             {
                 Mutate(@event);
@@ -36,6 +37,9 @@ namespace net.caffeineinject.multiplayerar.domain
                 case PlayerSpoke playerSpoke:
                     When(playerSpoke);
                     break;
+                case PlayerMoved playerMoved:
+                    When(playerMoved);
+                    break;
             }
         }
 
@@ -47,6 +51,16 @@ namespace net.caffeineinject.multiplayerar.domain
             }
         }
 
+        private void When(PlayerMoved playerMoved)
+        {
+            Players[playerMoved.PlayerId].Move(playerMoved.Position, playerMoved.Rotation);
+        }
+
+        private void When(PlayerSpoke @event)
+        {
+            Messages.Add(@event);
+        }
+
         private void When(PlayerLeft @event)
         {
             if (!Players.TryRemove(@event.PlayerId, out var player))
@@ -55,14 +69,9 @@ namespace net.caffeineinject.multiplayerar.domain
             }
         }
 
-        private void When(PlayerSpoke @event)
-        {
-            Messages.Add(@event);
-        }
-
         public void AddPlayer(string playerId, string playerName)
         {
-            _domainEventPublisher.Publish(new PlayerJoined(_roomName, playerId, playerName, new Vector3(),
+            _domainEventPublisher.Publish(new PlayerJoined(RoomName, playerId, playerName, new Vector3(),
                 new Quaternion()));
         }
 
@@ -83,6 +92,17 @@ namespace net.caffeineinject.multiplayerar.domain
                     PlayerId = playerId,
                     PlayerName = playerName,
                     Message = message
+                });
+        }
+
+        public void MovePlayer(string playerId, Vector3 moveCommandPosition, Quaternion moveCommandRotation)
+        {
+            _domainEventPublisher.Publish(
+                new PlayerMoved()
+                {
+                    PlayerId = playerId,
+                    Position = moveCommandPosition,
+                    Rotation = moveCommandRotation
                 });
         }
     }

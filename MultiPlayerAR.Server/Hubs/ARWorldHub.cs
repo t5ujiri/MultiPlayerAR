@@ -26,7 +26,7 @@ namespace net.caffeineinject.multiplayerar.server.hubs
 
         public async Task ExecuteAsync(ICommand cmd)
         {
-            await When((dynamic) cmd);
+            await this.When((dynamic) cmd);
         }
 
         private async Task When(JoinCommand cmd)
@@ -53,6 +53,10 @@ namespace net.caffeineinject.multiplayerar.server.hubs
                             BroadcastToSelf(_group).OnEvent(playerSpoke);
                             Console.WriteLine($"spoke: {playerSpoke.PlayerId} like {playerSpoke.Message}");
                             break;
+                        case PlayerMoved playerMoved:
+                            BroadcastToSelf(_group).OnEvent(playerMoved);
+                            // Console.WriteLine($"spoke: {playerSpoke.PlayerId} like {playerSpoke.Message}");
+                            break;
                     }
                 }).AddTo(_disposables);
 
@@ -73,7 +77,7 @@ namespace net.caffeineinject.multiplayerar.server.hubs
             _disposables.Dispose();
         }
 
-        private Task When(PlayerSayCommand cmd)
+        private Task When(ICommand cmd)
         {
             _applications[_roomName].Execute(cmd);
             return Task.CompletedTask;

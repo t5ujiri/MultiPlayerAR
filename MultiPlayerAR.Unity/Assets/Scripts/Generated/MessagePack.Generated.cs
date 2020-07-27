@@ -58,9 +58,9 @@ namespace MessagePack.Resolvers
                 { typeof(global::net.caffeineinject.multiplayerar.servershared.messagepackobjects.EventStream), 4 },
                 { typeof(global::net.caffeineinject.multiplayerar.servershared.messagepackobjects.JoinCommand), 5 },
                 { typeof(global::net.caffeineinject.multiplayerar.servershared.messagepackobjects.LeaveCommand), 6 },
-                { typeof(global::net.caffeineinject.multiplayerar.servershared.messagepackobjects.MoveCommand), 7 },
-                { typeof(global::net.caffeineinject.multiplayerar.servershared.messagepackobjects.PlayerJoined), 8 },
-                { typeof(global::net.caffeineinject.multiplayerar.servershared.messagepackobjects.PlayerLeft), 9 },
+                { typeof(global::net.caffeineinject.multiplayerar.servershared.messagepackobjects.PlayerJoined), 7 },
+                { typeof(global::net.caffeineinject.multiplayerar.servershared.messagepackobjects.PlayerLeft), 8 },
+                { typeof(global::net.caffeineinject.multiplayerar.servershared.messagepackobjects.PlayerMoveCommand), 9 },
                 { typeof(global::net.caffeineinject.multiplayerar.servershared.messagepackobjects.PlayerMoved), 10 },
                 { typeof(global::net.caffeineinject.multiplayerar.servershared.messagepackobjects.PlayerSayCommand), 11 },
                 { typeof(global::net.caffeineinject.multiplayerar.servershared.messagepackobjects.PlayerSpoke), 12 },
@@ -84,9 +84,9 @@ namespace MessagePack.Resolvers
                 case 4: return new MessagePack.Formatters.net.caffeineinject.multiplayerar.servershared.messagepackobjects.EventStreamFormatter();
                 case 5: return new MessagePack.Formatters.net.caffeineinject.multiplayerar.servershared.messagepackobjects.JoinCommandFormatter();
                 case 6: return new MessagePack.Formatters.net.caffeineinject.multiplayerar.servershared.messagepackobjects.LeaveCommandFormatter();
-                case 7: return new MessagePack.Formatters.net.caffeineinject.multiplayerar.servershared.messagepackobjects.MoveCommandFormatter();
-                case 8: return new MessagePack.Formatters.net.caffeineinject.multiplayerar.servershared.messagepackobjects.PlayerJoinedFormatter();
-                case 9: return new MessagePack.Formatters.net.caffeineinject.multiplayerar.servershared.messagepackobjects.PlayerLeftFormatter();
+                case 7: return new MessagePack.Formatters.net.caffeineinject.multiplayerar.servershared.messagepackobjects.PlayerJoinedFormatter();
+                case 8: return new MessagePack.Formatters.net.caffeineinject.multiplayerar.servershared.messagepackobjects.PlayerLeftFormatter();
+                case 9: return new MessagePack.Formatters.net.caffeineinject.multiplayerar.servershared.messagepackobjects.PlayerMoveCommandFormatter();
                 case 10: return new MessagePack.Formatters.net.caffeineinject.multiplayerar.servershared.messagepackobjects.PlayerMovedFormatter();
                 case 11: return new MessagePack.Formatters.net.caffeineinject.multiplayerar.servershared.messagepackobjects.PlayerSayCommandFormatter();
                 case 12: return new MessagePack.Formatters.net.caffeineinject.multiplayerar.servershared.messagepackobjects.PlayerSpokeFormatter();
@@ -139,7 +139,7 @@ namespace MessagePack.Formatters.net.caffeineinject.multiplayerar.servershared.m
                 { typeof(global::net.caffeineinject.multiplayerar.servershared.messagepackobjects.JoinCommand).TypeHandle, new KeyValuePair<int, int>(0, 0) },
                 { typeof(global::net.caffeineinject.multiplayerar.servershared.messagepackobjects.LeaveCommand).TypeHandle, new KeyValuePair<int, int>(1, 1) },
                 { typeof(global::net.caffeineinject.multiplayerar.servershared.messagepackobjects.PlayerSayCommand).TypeHandle, new KeyValuePair<int, int>(2, 2) },
-                { typeof(global::net.caffeineinject.multiplayerar.servershared.messagepackobjects.PlayerMoved).TypeHandle, new KeyValuePair<int, int>(3, 3) },
+                { typeof(global::net.caffeineinject.multiplayerar.servershared.messagepackobjects.PlayerMoveCommand).TypeHandle, new KeyValuePair<int, int>(3, 3) },
             };
             this.keyToJumpMap = new Dictionary<int, int>(4)
             {
@@ -169,7 +169,7 @@ namespace MessagePack.Formatters.net.caffeineinject.multiplayerar.servershared.m
                         options.Resolver.GetFormatterWithVerify<global::net.caffeineinject.multiplayerar.servershared.messagepackobjects.PlayerSayCommand>().Serialize(ref writer, (global::net.caffeineinject.multiplayerar.servershared.messagepackobjects.PlayerSayCommand)value, options);
                         break;
                     case 3:
-                        options.Resolver.GetFormatterWithVerify<global::net.caffeineinject.multiplayerar.servershared.messagepackobjects.PlayerMoved>().Serialize(ref writer, (global::net.caffeineinject.multiplayerar.servershared.messagepackobjects.PlayerMoved)value, options);
+                        options.Resolver.GetFormatterWithVerify<global::net.caffeineinject.multiplayerar.servershared.messagepackobjects.PlayerMoveCommand>().Serialize(ref writer, (global::net.caffeineinject.multiplayerar.servershared.messagepackobjects.PlayerMoveCommand)value, options);
                         break;
                     default:
                         break;
@@ -214,7 +214,7 @@ namespace MessagePack.Formatters.net.caffeineinject.multiplayerar.servershared.m
                     result = (global::net.caffeineinject.multiplayerar.servershared.messagepackobjects.ICommand)options.Resolver.GetFormatterWithVerify<global::net.caffeineinject.multiplayerar.servershared.messagepackobjects.PlayerSayCommand>().Deserialize(ref reader, options);
                     break;
                 case 3:
-                    result = (global::net.caffeineinject.multiplayerar.servershared.messagepackobjects.ICommand)options.Resolver.GetFormatterWithVerify<global::net.caffeineinject.multiplayerar.servershared.messagepackobjects.PlayerMoved>().Deserialize(ref reader, options);
+                    result = (global::net.caffeineinject.multiplayerar.servershared.messagepackobjects.ICommand)options.Resolver.GetFormatterWithVerify<global::net.caffeineinject.multiplayerar.servershared.messagepackobjects.PlayerMoveCommand>().Deserialize(ref reader, options);
                     break;
                 default:
                     reader.Skip();
@@ -602,69 +602,6 @@ namespace MessagePack.Formatters.net.caffeineinject.multiplayerar.servershared.m
         }
     }
 
-    public sealed class MoveCommandFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::net.caffeineinject.multiplayerar.servershared.messagepackobjects.MoveCommand>
-    {
-
-
-        public void Serialize(ref MessagePackWriter writer, global::net.caffeineinject.multiplayerar.servershared.messagepackobjects.MoveCommand value, global::MessagePack.MessagePackSerializerOptions options)
-        {
-            if (value == null)
-            {
-                writer.WriteNil();
-                return;
-            }
-
-            IFormatterResolver formatterResolver = options.Resolver;
-            writer.WriteArrayHeader(3);
-            formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.PlayerId, options);
-            formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Serialize(ref writer, value.Position, options);
-            formatterResolver.GetFormatterWithVerify<global::UnityEngine.Quaternion>().Serialize(ref writer, value.Rotation, options);
-        }
-
-        public global::net.caffeineinject.multiplayerar.servershared.messagepackobjects.MoveCommand Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
-        {
-            if (reader.TryReadNil())
-            {
-                return null;
-            }
-
-            options.Security.DepthStep(ref reader);
-            IFormatterResolver formatterResolver = options.Resolver;
-            var length = reader.ReadArrayHeader();
-            var __PlayerId__ = default(string);
-            var __Position__ = default(global::UnityEngine.Vector3);
-            var __Rotation__ = default(global::UnityEngine.Quaternion);
-
-            for (int i = 0; i < length; i++)
-            {
-                var key = i;
-
-                switch (key)
-                {
-                    case 0:
-                        __PlayerId__ = formatterResolver.GetFormatterWithVerify<string>().Deserialize(ref reader, options);
-                        break;
-                    case 1:
-                        __Position__ = formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Deserialize(ref reader, options);
-                        break;
-                    case 2:
-                        __Rotation__ = formatterResolver.GetFormatterWithVerify<global::UnityEngine.Quaternion>().Deserialize(ref reader, options);
-                        break;
-                    default:
-                        reader.Skip();
-                        break;
-                }
-            }
-
-            var ____result = new global::net.caffeineinject.multiplayerar.servershared.messagepackobjects.MoveCommand();
-            ____result.PlayerId = __PlayerId__;
-            ____result.Position = __Position__;
-            ____result.Rotation = __Rotation__;
-            reader.Depth--;
-            return ____result;
-        }
-    }
-
     public sealed class PlayerJoinedFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::net.caffeineinject.multiplayerar.servershared.messagepackobjects.PlayerJoined>
     {
 
@@ -792,6 +729,69 @@ namespace MessagePack.Formatters.net.caffeineinject.multiplayerar.servershared.m
             var ____result = new global::net.caffeineinject.multiplayerar.servershared.messagepackobjects.PlayerLeft();
             ____result.PlayerId = __PlayerId__;
             ____result.PlayerName = __PlayerName__;
+            reader.Depth--;
+            return ____result;
+        }
+    }
+
+    public sealed class PlayerMoveCommandFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::net.caffeineinject.multiplayerar.servershared.messagepackobjects.PlayerMoveCommand>
+    {
+
+
+        public void Serialize(ref MessagePackWriter writer, global::net.caffeineinject.multiplayerar.servershared.messagepackobjects.PlayerMoveCommand value, global::MessagePack.MessagePackSerializerOptions options)
+        {
+            if (value == null)
+            {
+                writer.WriteNil();
+                return;
+            }
+
+            IFormatterResolver formatterResolver = options.Resolver;
+            writer.WriteArrayHeader(3);
+            formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.PlayerId, options);
+            formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Serialize(ref writer, value.Position, options);
+            formatterResolver.GetFormatterWithVerify<global::UnityEngine.Quaternion>().Serialize(ref writer, value.Rotation, options);
+        }
+
+        public global::net.caffeineinject.multiplayerar.servershared.messagepackobjects.PlayerMoveCommand Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
+        {
+            if (reader.TryReadNil())
+            {
+                return null;
+            }
+
+            options.Security.DepthStep(ref reader);
+            IFormatterResolver formatterResolver = options.Resolver;
+            var length = reader.ReadArrayHeader();
+            var __PlayerId__ = default(string);
+            var __Position__ = default(global::UnityEngine.Vector3);
+            var __Rotation__ = default(global::UnityEngine.Quaternion);
+
+            for (int i = 0; i < length; i++)
+            {
+                var key = i;
+
+                switch (key)
+                {
+                    case 0:
+                        __PlayerId__ = formatterResolver.GetFormatterWithVerify<string>().Deserialize(ref reader, options);
+                        break;
+                    case 1:
+                        __Position__ = formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Deserialize(ref reader, options);
+                        break;
+                    case 2:
+                        __Rotation__ = formatterResolver.GetFormatterWithVerify<global::UnityEngine.Quaternion>().Deserialize(ref reader, options);
+                        break;
+                    default:
+                        reader.Skip();
+                        break;
+                }
+            }
+
+            var ____result = new global::net.caffeineinject.multiplayerar.servershared.messagepackobjects.PlayerMoveCommand();
+            ____result.PlayerId = __PlayerId__;
+            ____result.Position = __Position__;
+            ____result.Rotation = __Rotation__;
             reader.Depth--;
             return ____result;
         }

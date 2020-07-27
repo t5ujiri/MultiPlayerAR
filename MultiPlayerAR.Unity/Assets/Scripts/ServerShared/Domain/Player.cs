@@ -7,6 +7,9 @@ namespace net.caffeineinject.multiplayerar.domain
     {
         public string PlayerId { get; }
         public string PlayerName { get; }
+        public Vector3 Position { get; private set; }
+        public Quaternion Rotation { get; private set; }
+
         private readonly DomainEventPublisher _domainEventPublisher;
 
         public Player(string playerId, string playerName, DomainEventPublisher domainEventPublisher)
@@ -15,21 +18,11 @@ namespace net.caffeineinject.multiplayerar.domain
             PlayerName = playerName;
             _domainEventPublisher = domainEventPublisher;
         }
-        //
-        // public void Mutate(IEvent @event)
-        // {
-        //     // When((dynamic) this);
-        //     switch (@event)
-        //     {
-        //         case PlayerSpoke playerSpoke:
-        //             When(playerSpoke);
-        //             break;
-        //     }
-        // }
-        //
-        // private void When(PlayerSpoke playerSpoke)
-        // {
-        //     
-        // }
+
+        public void Move(Vector3 position, Quaternion rotation)
+        {
+            Position = position;
+            Rotation = rotation;
+        }
     }
 }
